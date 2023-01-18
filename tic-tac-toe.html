@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page title</title>
+    <style>
+        body{
+        position:relative;
+            display:flex;
+            width:360px;
+            height:500px;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+        }
+        
+        .box{
+        position:relative;
+        
+            border: 2px solid black;
+            
+            height:300px;
+            width:300px;
+            
+            background:blue;
+            
+            display:flex;
+            
+            flex-wrap:wrap;
+            
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+        }
+        
+        .box>div{
+        display:flex;
+        position:relative;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        
+            height:90px;
+            width:90px;
+            
+            background:orange;
+            margin:5px;
+        }
+        
+        .box>div .a ::after{
+            
+            content:"one-test";
+        }
+        .scr{
+        
+            position:absolute;
+            z-index:1000;
+            top:31px;
+             font-weight:bold;
+             font-size:1.15em;
+        }
+        .a{
+            font-weight:900;
+            font-size:2.15em;
+        }
+       .box .board-score{
+       
+        pointer-events:none;
+        
+            position:absolute;
+            
+            top:44px;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            
+            width:200px;
+            height:100px;
+            
+            z-index:100;
+            
+            opacity:0;
+            
+            font-family:"sans-serif";
+            
+            border-radius:1rem;
+            
+            box-shadow:6px -20px 33px black;
+            backdrop-filter:blur(12px);
+            
+            overflow:hidden;
+            
+            background:white;
+            
+/*background-color:linear-gradient(to right,violet,purple);
+
+        -webkit-background-clip:text;
+        
+        -webkit-text-fill-color:transparent;
+        
+        */
+        
+        transition: 0.24s ease-in;
+        
+        }
+        span::after{
+        color:red;
+           content:attr(data-value);
+           display:flex;
+           position:absolute;
+           right:0;
+           font-weight:bold;
+           font-size:2rem;
+           
+        }
+      
+      span::before{
+        color:blue;
+           content:attr(data);
+           display:flex;
+           position:absolute;
+           left:0;
+           font-weight:bold;
+           font-size:2rem;
+           }
+           .turn{  display:flex;
+           width:100px;
+           align-items:center;
+           text-align:center;
+           position:absolute;
+           justify-content:center;
+           z-index:20000;
+           top:44px;
+           font-size:22px;
+           flex:5px 6px 100%;
+               background:yellow;
+               
+           }
+          .box .board-score.active{
+               top:80px;
+               opacity:1.24;
+               pointer-events:auto;
+               
+           }
+        .turn,.box,.scr{
+            display:none;
+        }
+        button{
+       width:100px;
+       height:100px;
+       border-radius:4px;
+          border:none; 
+          background:crimson;
+           opacity:1;
+           animation:smoothie 2.53s ease-in infinite;
+           transition: 1.24s;
+           
+     
+           
+       }
+       
+       @keyframes smoothie{
+           20%{
+               opacity:0.70
+               
+           }
+           50%{
+               opacity:0.55;
+           }
+           70%{
+               opacity:0.70;
+               background:blue;
+           }
+           100%{
+               opacity:1;
+           }
+       }
+         .bar{display:flex;
+  display:none;
+  align-item:start;
+  justify-content:start;
+      height:2em;
+      width:12em;
+      overflow:hidden;
+      position:relative;
+      outline: 3px solid gray;
+      border-radius:22px;
+  }
+  .bar span{
+  width:0px;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  text-align:center;
+  align-items:center;
+  padding-right:10px;
+      background:lightblue;
+      transition:1s ease-in;
+  }
+  h3{
+  color:gray;
+  
+  background-image:linear-gradient(44deg,green,cyan);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:1000;
+  display:flex;
+  text-align:center;
+  position:absolute;
+  bottom:-12px;
+      right:calc(52px);
+  }
+          </style>
+                       </head>
+<body class="parent">
+    <button class="btn">Play</button>
+    <div class="bar"> <span id="a"></span>
+ <h3>loading...</h3>   </div>
+ 
+    <div class="scr">score</div>
+    <h3 class="turn"></h3>
+    <div class="box">
+        
+        <span class="board-score">VS</span>
+        
+        <div class="a" style=""></div>
+        <div class="a"></div>
+        <div class="a"></div>
+        <div class="a"></div>
+        <div class="a"></div>
+        <div class="a"></div>
+        <div class="a"></div>
+        <div class="a"></div>
+        <div class="a"></div>
+        
+    </div>
+    <?php
+    echo "hello";
+    ?>
+    <script>
+        
+        const bar= document.querySelector(".bar");
+       let as = document.querySelector("#a");
+       let h=document.getElementsByTagName("h3")
+       
+            const btn_bar= document.querySelector(".btn");
+            var i;
+       class bar_progress{
+           constructor(Value,Color,i=0){
+               this.value=Value;
+     this.i=i
+               this.color=Color;
+           }
+          processing(){
+          btn_bar.style.display="none"
+        let stp  =setInterval(()=>{
+          
+              var  loop=this.i++ *10;
+              
+               as.style.width= loop+"px"
+               
+              if(loop==180){
+                  as.style.background=this.color
+              }
+              else if(200==loop){
+                  clearInterval(stp)
+                  h[0].innerHTML="complete"
+              }
+              
+              },100)
+           }
+       }
+      let call= new bar_progress("55","lightgreen")
+     
+     btn_bar.onclick=()=>{
+     bar.style.display="flex"
+         call.processing()
+         
+         as.addEventListener("transitionend",()=>{
+             bar.style.display="none"
+             box.style.display="flex"
+         })
+     }
+     
+ const boxies=document.querySelectorAll(".a")
+ 
+ box=document.querySelector(".box")
+ turns=document.querySelector(".turn")
+ 
+ const bodys=document.querySelector(".parent")
+ 
+ let att=document.querySelector(".board-score")
+ 
+ att.onclick=()=>{
+ 
+     //att.style.opacity="0"
+     //att.style.pointerEvents="none"
+     
+     att.classList.remove("active");
+     
+     
+          rotat=0
+     clearInterval(stop)
+     
+ }
+ 
+att.setAttribute('data-value' , "O")
+att.setAttribute('data' , "X")
+
+let stop;
+let rotat;
+
+rotat=0
+
+function flip(i){
+clearInterval(stop)
+
+stop=setInterval(()=>{
+rotat++
+    i.style.transform=`rotateY(${rotat}deg)`
+    },11)
+}
+
+var point;
+pointo=0;
+pointx=0;
+ var a;
+ let matrice=[
+ [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6] ];
+ 
+ let turn;
+ 
+ turn=true;
+ 
+ //rising score to the  winner
+ 
+ function winner(won="draw",square=boxies){
+ 
+ att.classList.add("active");
+ 
+ matrice.forEach((value,index,arr)=>{
+ const condition=matrice[index]
+ 
+ let a=condition[0],b=condition[1],c=condition[2];
+ console.log(condition,444444)
+    if( state[a]== state[b]&& state[b]==state[c]){
+    square[a].style.background="cyan"
+    square[b].style.background="cyan"
+    square[c].style.background="cyan"
+    
+        
+    }
+    
+ })
+ console.log(square.innerText)
+ 
+let el=state.indexOf(won)
+
+//test 
+
+
+
+ 
+ if('X'==won){
+ 
+ 
+ att.style.display="flex";
+ 
+ setTimeout(()=>{
+ 
+ pointx++
+ 
+ att.setAttribute('data', pointx)},500)}
+ 
+     else if('O'==won){
+     
+     att.style.display="flex";
+     
+     
+     setTimeout(()=>{
+     
+ pointo++
+ 
+ att.setAttribute('data-value', pointo)},500)
+ }
+ 
+ else if(won=="draw"){
+ 
+ att.style.display="flex"
+ 
+ att.setAttribute('data-value' , "")
+ 
+att.setAttribute('data' , "")
+
+att.innerHTML="DRAW"
+ }
+ 
+     square.forEach((el,index)=>{
+     el.addEventListener("click",el.add,false)
+ 
+    setTimeout(()=>{
+        el.style.background="orange"
+     el.innerHTML=""
+     
+    },2000) 
+ })
+ 
+ 
+ state.fill("")
+ }
+ 
+
+let arr=[1,2,3,4]
+const fun=(a)=>{
+
+    
+}
+fun(arr)
+/*creating  state to collet  elements from boxies whether x or o*/
+
+ state= ["", "", "", "", "", "", "", "", ""]
+ //first player play edit it later
+ turns.innerHTML="X";
+ 
+ //bot O
+let  clr;
+let allow;
+allow=false;
+function bot(allow=false){
+clr= setInterval(()=>{
+ 
+ if(!turn){
+ 
+     for(i in boxies){
+    random =Math.floor(Math.random()*9)
+ let npc=boxies[random]
+  
+  
+   if(npc.innerHTML==""){
+   
+   npc.style.color="red"
+     turns.innerHTML="X"
+     turn=true
+     npc.innerHTML="O"
+     npc.removeEventListener("click",npc.add,false)
+     
+     
+      if(state[random]==""){
+      
+      
+     state[random]+=npc.innerHTML
+     
+     }
+      
+       
+   
+   for(v in matrice){
+       
+         let condi=matrice[v]
+       const a =state[condi[0]]
+       const b=state[condi[1]]
+       const c =state[condi[2]]
+       
+       if(a==""||b=="" ||c==""){
+       
+           continue
+       }
+       if(a===b && b===c){
+       
+      setTimeout(()=>{
+          winner(a,boxies)
+      },500)
+       
+       
+           
+        
+     
+     }
+     
+     
+     }break
+     
+     
+   }
+
+ 
+   }
+   }
+   
+   else{
+       
+   
+       var test =state.every(check)
+
+    if(test){
+ 
+ winner()
+ 
+         }
+         function check(a){
+             
+             return a!==""
+                 
+             
+         }
+      
+   
+  }
+   if(allow){
+   console.log("stop bot callback ")
+   allow=false
+   clearInterval(clr)
+   }
+ }
+ ,1500)
+ }
+ 
+ 
+ boxies.forEach((el,index)=>{
+ 
+ el.addEventListener("click",el.add=(event)=>{
+ bot(true)
+ att.setAttribute('data-value' , pointo)
+att.setAttribute('data' , pointx)
+att.innerHTML="VS"
+ 
+ //flip(el)
+ 
+ if(turn){
+ 
+
+ turn=false
+ turns.innerHTML="O";
+ event.target.innerHTML="X";
+ event.target.style.color="blue"
+ event.target.removeEventListener("click",el.add,false)
+ 
+ 
+  //event.target.outerHTML = "";
+ 
+ 
+ 
+ 
+ 
+ }
+ 
+ 
+ /*else{
+ let npc=boxies[ Math.floor(Math.random()*8)]
+ 
+
+ //npc.innerHTML="O";
+    event.target.innerHTML="O";
+    
+     turns.innerHTML="X";
+     
+    event.target.style.color="red"
+     
+     turn=true
+     event.target.removeEventListener("click",el.add,false)
+ }*/
+ 
+ if(state[index]==""){
+ 
+ 
+     let txt =event.target.innerHTML
+     
+      state[index]+=txt
+      
+      
+     
+ 
+
+ 
+ 
+     for(v in matrice){
+         
+         let condi=matrice[v]
+       const a =state[condi[0]]
+       const b=state[condi[1]]
+       const c =state[condi[2]]
+       
+       if(a==""||b=="" ||c==""){
+       
+           continue
+       }
+       if(a===b && b===c){
+      
+       winner(a,boxies)
+       
+           
+           
+     
+     
+   
+     } 
+     else{
+       
+      
+       
+           //if  boxies got full clean it up
+ 
+var test =state.every(check)
+
+    if(test){
+ 
+ winner()
+ 
+         }
+         function check(a){
+             
+             return a!==""
+                 
+             
+         }
+      
+       
+               
+            
+           
+            
+        
+         
+     
+    
+ }
+      }}
+     
+
+     
+ 
+ /*for(s in boxies){
+        
+        if(boxies[s].innerHTML==undefined){
+        continue;
+        }
+        
+       
+       }*/
+ 
+ },false)
+ 
+ //the end of event handler
+ 
+ 
+                       
+        
+       
+       }
+       //the end of foreach
+       )
+       
+    </script>
+    </body>
+</html>
